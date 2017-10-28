@@ -1,4 +1,4 @@
-console.info("Initializing Create API of Posts...");
+console.info("Initializing Update API of Posts...");
 
 var AWS = require('aws-sdk');
 var dynamo = new AWS.DynamoDB.DocumentClient();
@@ -13,17 +13,17 @@ exports.handler = function (event, context, callback) {
     }
 
     var post = {
-        subject: 'blog-jedi',
-        created: new Date().toISOString(),
+        subject: body.subject,
+        created: body.created,
         title: body.title,
         text: body.text,
         author: body.author,
         picture: body.picture,
-        comments: []
-     };
+        comments: body.comments
+    };
 
     var params = {
-        TableName: "posts",  
+        TableName: "posts",
         Item: post
     };
 
@@ -32,8 +32,8 @@ exports.handler = function (event, context, callback) {
             console.error(error);
             return callback(error)
         }
-        
-        console.info("Successfuly created post");
+
+        console.info("Successfuly updated the post");
         callback(null, post)
     })
 };

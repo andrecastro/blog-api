@@ -1,14 +1,15 @@
 const posts = {
+    create: require("./posts/create.js").handler,
     index: require("./posts/index.js").handler,
-    create: require("./posts/create.js").handler
-}
+    update: require("./posts/update.js").handler,
+    delete: require("./posts/delete.js").handler
+};
 
 exports.routingMapper = {
     "/posts": {
+        "POST": posts.create,
         "GET": posts.index,
-        "POST": posts.create
-    },
-    "/posts/{postId}": {
-        "PUT": posts.create
-    }  
-}
+        "PUT": posts.update,
+        "DELETE": posts.delete
+    }
+};

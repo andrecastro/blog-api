@@ -1,4 +1,4 @@
-console.info("Initializing Create API of Posts...");
+console.info("Initializing Delete API of Posts...");
 
 var AWS = require('aws-sdk');
 var dynamo = new AWS.DynamoDB.DocumentClient();
@@ -13,27 +13,22 @@ exports.handler = function (event, context, callback) {
     }
 
     var post = {
-        subject: 'blog-jedi',
-        created: new Date().toISOString(),
-        title: body.title,
-        text: body.text,
-        author: body.author,
-        picture: body.picture,
-        comments: []
-     };
-
-    var params = {
-        TableName: "posts",  
-        Item: post
+        subject: body.subject,
+        created: body.created
     };
 
-    dynamo.put(params, function (error, result) {
+    var params = {
+        TableName: "posts",
+        Key: post
+    };
+
+    dynamo.delete(params, function (error, result) {
         if (error) {
             console.error(error);
             return callback(error)
         }
-        
-        console.info("Successfuly created post");
-        callback(null, post)
+
+        console.info("Successfuly deleted a post");
+        callback()
     })
 };
